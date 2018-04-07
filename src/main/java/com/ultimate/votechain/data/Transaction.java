@@ -14,7 +14,6 @@ public class Transaction
     public byte[] signature;
     public List<Vote> votes;
     public long timestamp;
-
     private static int sequence = 0;
 
     public Transaction(PublicKey from, List<Vote> votes) {
@@ -26,14 +25,12 @@ public class Transaction
     private String calulateHash()
     {
         sequence++;
-        return StringUtil.applySha256(
-                StringUtil.getStringFromKey(sender) + sequence
-        );
+        return StringUtil.applySha256(StringUtil.getStringFromKey(sender) + sequence);
     }
 
     public void generateSignature(PrivateKey privateKey) {
         String data = StringUtil.getStringFromKey(sender);
-        signature = StringUtil.applyECDSASig(privateKey,data);
+        signature = StringUtil.applyECDSASig(privateKey, data);
     }
 
     public boolean verifiySignature() {

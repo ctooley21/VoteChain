@@ -47,7 +47,7 @@ public class VoteChain
         isChainValid();
     }
 
-    public static Boolean isChainValid()
+    private static Boolean isChainValid()
     {
         Block currentBlock;
         Block previousBlock;
@@ -93,7 +93,7 @@ public class VoteChain
         return true;
     }
 
-    public static void addBlock(Block newBlock)
+    private static void addBlock(Block newBlock)
     {
         newBlock.mineBlock(difficulty);
         chain.add(newBlock);
