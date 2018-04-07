@@ -4,19 +4,23 @@ import com.ultimate.votechain.util.StringUtil;
 
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.util.Date;
+import java.util.List;
 
 public class Transaction
 {
     public String transactionId;
     public PublicKey sender;
     public byte[] signature;
-    public Vote vote;
+    public List<Vote> votes;
+    public long timestamp;
 
     private static int sequence = 0;
 
-    public Transaction(PublicKey from, Vote vote) {
+    public Transaction(PublicKey from, List<Vote> votes) {
         this.sender = from;
-        this.vote = vote;
+        this.votes = votes;
+        this.timestamp = new Date().getTime();
     }
 
     private String calulateHash()

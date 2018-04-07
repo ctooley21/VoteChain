@@ -45,7 +45,6 @@ public class VoteChain
         addBlock(block3);
 
         isChainValid();
-
     }
 
     public static Boolean isChainValid()

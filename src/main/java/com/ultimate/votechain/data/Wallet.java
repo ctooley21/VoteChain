@@ -3,12 +3,14 @@ package com.ultimate.votechain.data;
 import java.security.*;
 import java.security.spec.ECGenParameterSpec;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Wallet
 {
     public PrivateKey privateKey;
     public PublicKey publicKey;
     public ArrayList<Vote> votes = new ArrayList<>();
+    public String district = "CA-01";
 
     public Wallet()
     {
@@ -35,9 +37,9 @@ public class Wallet
         }
     }
 
-    public Transaction sendVote(Vote vote)
+    public Transaction sendVote(List<Vote> votes)
     {
-        Transaction newTransaction = new Transaction(publicKey, vote);
+        Transaction newTransaction = new Transaction(publicKey, votes);
         newTransaction.generateSignature(privateKey);
         return newTransaction;
     }
