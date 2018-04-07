@@ -4,13 +4,14 @@ import com.ultimate.votechain.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Block {
 
     public String hash;
     public String previousHash;
     public String merkleRoot;
-    public ArrayList<Transaction> transactions = new ArrayList<>();
+    private List<Transaction> transactions = new ArrayList<>();
     public long timeStamp;
     public int nonce;
 
@@ -34,6 +35,11 @@ public class Block {
     public long getTimeStamp()
     {
         return timeStamp;
+    }
+
+    public List<Transaction> getTransactions()
+    {
+        return transactions;
     }
 
     public String calculateHash() {

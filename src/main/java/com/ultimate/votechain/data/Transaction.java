@@ -49,4 +49,9 @@ public class Transaction
         transactionId = calculateHash();
         return true;
     }
+
+    public List<Vote> getVotes()
+    {
+        return votes;
+    }
 }

@@ -24,10 +24,10 @@ public class VoteChain
 
         walletA = new Wallet();
         walletB = new Wallet();
-        Wallet coinbase = new Wallet();
+        Wallet genesisWallet = new Wallet();
 
-        genesisTransaction = new Transaction(coinbase.publicKey, null);
-        genesisTransaction.generateSignature(coinbase.privateKey);
+        genesisTransaction = new Transaction(genesisWallet.publicKey, null);
+        genesisTransaction.generateSignature(genesisWallet.privateKey);
         genesisTransaction.transactionId = "0";
 
         System.out.println("Creating and Mining Genesis block... ");
@@ -77,9 +77,9 @@ public class VoteChain
             }
 
 
-            for(int j = 0; j <currentBlock.transactions.size(); j++)
+            for(int j = 0; j <currentBlock.getTransactions().size(); j++)
             {
-                Transaction currentTransaction = currentBlock.transactions.get(j);
+                Transaction currentTransaction = currentBlock.getTransactions().get(j);
 
                 if(!currentTransaction.verifySignature())
                 {
