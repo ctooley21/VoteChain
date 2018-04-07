@@ -2,19 +2,39 @@ package com.ultimate.votechain.data;
 
 import java.security.*;
 import java.security.spec.ECGenParameterSpec;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Wallet
 {
-    public PrivateKey privateKey;
-    public PublicKey publicKey;
-    public ArrayList<Vote> votes = new ArrayList<>();
-    public String district = "CA-01";
+    private PrivateKey privateKey;
+    private PublicKey publicKey;
+    private String district;
+
+    public Wallet(String district)
+    {
+        generateKeyPair();
+        this.district = district;
+    }
 
     public Wallet()
     {
         generateKeyPair();
+        district = "CA-01";
+    }
+
+    public PrivateKey getPrivateKey()
+    {
+        return privateKey;
+    }
+
+    public PublicKey getPublicKey()
+    {
+        return publicKey;
+    }
+
+    public String getDistrict()
+    {
+        return district;
     }
 
     private void generateKeyPair()

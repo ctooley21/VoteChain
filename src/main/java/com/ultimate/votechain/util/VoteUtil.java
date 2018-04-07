@@ -11,7 +11,7 @@ import java.util.List;
 public class VoteUtil
 {
 
-    public HashMap<String, HashMap<String, Integer>> getFinalVote()
+    public static HashMap<String, HashMap<String, Integer>> getFinalVote()
     {
         HashMap<String, HashMap<String, Integer>> finalVotes = new HashMap<>();
 

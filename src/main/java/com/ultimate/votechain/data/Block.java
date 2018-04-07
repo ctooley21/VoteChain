@@ -1,5 +1,6 @@
 package com.ultimate.votechain.data;
 
+import com.ultimate.votechain.VoteChain;
 import com.ultimate.votechain.util.StringUtil;
 
 import java.util.ArrayList;
@@ -10,10 +11,10 @@ public class Block {
 
     public String hash;
     public String previousHash;
-    public String merkleRoot;
+    private String merkleRoot;
     private List<Transaction> transactions = new ArrayList<>();
-    public long timeStamp;
-    public int nonce;
+    private long timeStamp;
+    private int nonce;
 
     public Block(String previousHash )
     {
@@ -32,6 +33,11 @@ public class Block {
         return previousHash;
     }
 
+    public String getMerkleRoot()
+    {
+        return merkleRoot;
+    }
+
     public long getTimeStamp()
     {
         return timeStamp;
@@ -42,45 +48,42 @@ public class Block {
         return transactions;
     }
 
-    public String calculateHash() {
-        return StringUtil.applySha256(
-                previousHash +
-                        Long.toString(timeStamp) +
-                        Integer.toString(nonce) +
-                        merkleRoot
-        );
+    public String calculateHash()
+    {
+        return StringUtil.applySha256(previousHash + Long.toString(timeStamp) + Integer.toString(nonce) + merkleRoot);
     }
 
-    public void mineBlock(int difficulty)
-    {
-        String target = new String(new char[difficulty]).replace('\0', '0');
-        while(!hash.substring(0, difficulty).equals(target))
+    public void mineBlock() {
+        merkleRoot = StringUtil.getMerkleRoot(transactions);
+        String target = StringUtil.getDificultyString(VoteChain.getDifficulty());
+
+        while(!hash.substring(0, VoteChain.getDifficulty()).equals(target))
         {
-            nonce++;
+            nonce ++;
             hash = calculateHash();
         }
-
-        System.out.println("Block Mined: " + hash);
     }
 
-    public boolean addTransaction(Transaction transaction)
+    public void addTransaction(Transaction transaction)
     {
         if(transaction == null)
         {
-            return false;
+            return;
         }
 
         if((!previousHash.equalsIgnoreCase("0")))
         {
             if((!transaction.processTransaction()))
             {
-                System.out.println("Transaction failed to process. Discarded.");
-                return false;
+                return;
             }
         }
 
         transactions.add(transaction);
-        System.out.println("Transaction Successfully added to Block");
-        return true;
+
+        if(transactions.size() >= 5)
+        {
+            mineBlock();
+        }
     }
 }

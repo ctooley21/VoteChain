@@ -6,6 +6,7 @@ import com.ultimate.votechain.data.Transaction;
 import java.security.*;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
 public class StringUtil
 {
@@ -73,7 +74,7 @@ public class StringUtil
         return Base64.getEncoder().encodeToString(key.getEncoded());
     }
 
-    public static String getMerkleRoot(ArrayList<Transaction> transactions)
+    public static String getMerkleRoot(List<Transaction> transactions)
     {
         int count = transactions.size();
         ArrayList<String> previousTreeLayer = new ArrayList<>();
@@ -93,5 +94,9 @@ public class StringUtil
             previousTreeLayer = treeLayer;
         }
         return (treeLayer.size() == 1) ? treeLayer.get(0) : "";
+    }
+
+    public static String getDificultyString(int difficulty) {
+        return new String(new char[difficulty]).replace('\0', '0');
     }
 }
