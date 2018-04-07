@@ -17,7 +17,7 @@ public class Transaction
     public float value;
     public byte[] signature;
 
-    public ArrayList<TransactionInput> inputs = new ArrayList<>();
+    public ArrayList<TransactionInput> inputs;
     public ArrayList<TransactionOutput> outputs = new ArrayList<>();
 
     private static int sequence = 0;
@@ -51,56 +51,63 @@ public class Transaction
 
     public boolean processTransaction() {
 
-        if(!verifiySignature()) {
+        if(!verifiySignature())
+        {
             System.out.println("#Transaction Signature failed to verify");
             return false;
         }
 
-        //gather transaction inputs (Make sure they are unspent):
-        for(TransactionInput i : inputs) {
+        for(TransactionInput i : inputs)
+        {
             i.UTXO = VoteChain.UTXOs.get(i.transactionOutputId);
         }
 
-        //check if transaction is valid:
         if(getInputsValue() < VoteChain.minimumTransaction) {
             System.out.println("#Transaction Inputs to small: " + getInputsValue());
             return false;
         }
 
-        //generate transaction outputs:
-        float leftOver = getInputsValue() - value; //get value of inputs then the left over change:
+        float leftOver = getInputsValue() - value;
         transactionId = calulateHash();
-        outputs.add(new TransactionOutput( this.reciepient, value,transactionId)); //send value to recipient
-        outputs.add(new TransactionOutput( this.sender, leftOver,transactionId)); //send the left over 'change' back to sender
+        outputs.add(new TransactionOutput( this.reciepient, value,transactionId));
+        outputs.add(new TransactionOutput( this.sender, leftOver,transactionId));
 
-        //add outputs to Unspent list
-        for(TransactionOutput o : outputs) {
+        for(TransactionOutput o : outputs)
+        {
             VoteChain.UTXOs.put(o.id , o);
         }
 
-        //remove transaction inputs from UTXO lists as spent:
-        for(TransactionInput i : inputs) {
-            if(i.UTXO == null) continue; //if Transaction can't be found skip it
+        for(TransactionInput i : inputs)
+        {
+            if(i.UTXO == null)
+            {
+                continue;
+            }
             VoteChain.UTXOs.remove(i.UTXO.id);
         }
 
         return true;
     }
 
-    //returns sum of inputs(UTXOs) values
-    public float getInputsValue() {
+    public float getInputsValue()
+    {
         float total = 0;
-        for(TransactionInput i : inputs) {
-            if(i.UTXO == null) continue; //if Transaction can't be found skip it
+        for(TransactionInput i : inputs)
+        {
+            if(i.UTXO == null)
+            {
+                continue;
+            }
             total += i.UTXO.value;
         }
         return total;
     }
 
-    //returns sum of outputs:
-    public float getOutputsValue() {
+    public float getOutputsValue()
+    {
         float total = 0;
-        for(TransactionOutput o : outputs) {
+        for(TransactionOutput o : outputs)
+        {
             total += o.value;
         }
         return total;
