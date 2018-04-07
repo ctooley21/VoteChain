@@ -23,7 +23,7 @@ public class Transaction
         this.timestamp = new Date().getTime();
     }
 
-    private String calulateHash()
+    private String calculateHash()
     {
         sequence++;
         return StringUtil.applySha256(
@@ -36,20 +36,20 @@ public class Transaction
         signature = StringUtil.applyECDSASig(privateKey,data);
     }
 
-    public boolean verifiySignature() {
+    public boolean verifySignature() {
         String data = StringUtil.getStringFromKey(sender);
         return StringUtil.verifyECDSASig(sender, data, signature);
     }
 
     public boolean processTransaction()
     {
-        if(!verifiySignature())
+        if(!verifySignature())
         {
             System.out.println("#Transaction Signature failed to verify");
             return false;
         }
 
-        transactionId = calulateHash();
+        transactionId = calculateHash();
         return true;
     }
 }

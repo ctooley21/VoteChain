@@ -81,7 +81,7 @@ public class VoteChain
             {
                 Transaction currentTransaction = currentBlock.transactions.get(j);
 
-                if(!currentTransaction.verifiySignature())
+                if(!currentTransaction.verifySignature())
                 {
                     System.out.println("#Signature on Transaction(" + j + ") is Invalid");
                     return false;
