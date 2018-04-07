@@ -6,12 +6,12 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import java.security.Security;
 import java.util.ArrayList;
+import java.util.List;
 
 public class VoteChain
 {
 
-    private static ArrayList<Block> chain = new ArrayList<>();
-
+    public static List<Block> chain = new ArrayList<>();
     private static int difficulty = 5;
 
     public static void main(String[] args)
@@ -70,7 +70,7 @@ public class VoteChain
         chain.add(newBlock);
     }
 
-    public static ArrayList<Block> getChain()
+    public static List<Block> getChain()
     {
         return chain;
     }
