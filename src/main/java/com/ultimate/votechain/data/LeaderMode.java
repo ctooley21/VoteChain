@@ -5,7 +5,9 @@ public class LeaderMode {
 	public LeaderMode() {
 		
 	}
-	private void Heartbeat(int beatVal) {
-		
+	public void Heartbeat(int beatVal, String ipAdress) {
+		System.out.println("Sending Heartbeat " + beatVal);
+		InitializeNetwork.sendMessage(ipAdress, 9001, Integer.toString(beatVal));
 	}
+
 }

@@ -20,14 +20,17 @@ public class InitializeNetwork{
     Scanner is;
     PrintStream os;
     
-   static int numOfPeers;
+    static LeaderMode leader = null;
+    static int numOfPeers;
     
     public InitializeNetwork() {
+    	//Constructor
+    	leader = new LeaderMode();
     	Initalize();
     }
     
     private static void Initalize() {
-
+    	
 	    try
         {
 	    	HOSTSOCK = new ServerSocket(9001);
@@ -41,10 +44,11 @@ public class InitializeNetwork{
 	    
 	    while(true)
         {
-            System.out.println("test1");
+            //System.out.println("test1");
 	    	try
-            {
-                System.out.println("test2");
+            {	
+	    		//Attempting to connect to Socket
+	    			// System.out.println("test2");
 	    		clientSock = HOSTSOCK.accept();
 	    		System.out.println("Connection Established with " + clientSock + "!");
 	    		threadInstance = new ServerThread();
@@ -54,33 +58,44 @@ public class InitializeNetwork{
 	    		Scanner scanner = new Scanner(clientSock.getInputStream());
 
 	    		while(scanner.hasNext())
+	    			//Waiting for serial input from peers
                 {
                     String input = scanner.next();
                     if(input.equalsIgnoreCase("?"))
+                    	//Asking if this node is leader
                     {
                         System.out.println("test");
                         String response = Network.isLeader() ? "Y" : "N";
                         sendMessage(NetworkUtil.getSocketIP(clientSock), 9001, response);
                         System.out.println("Leader Request Received");
                     }else if(scanner.next().equalsIgnoreCase("v")) {
+                    	//Leader vote requested
+                    	
                     	//Call Vote Class
                     	System.out.println("Vote Query Recieved");
                     }
-                    else if(input.equalsIgnoreCase("Y"))
-                    {
-                        System.out.println("test34");
+                    else if(input.equalsIgnoreCase("Y")){
+                    	//Yes vote recieved (In response to voting request)
+                    	
+                        System.out.println("Yes Vote Recieved");
                         Network.leader = NetworkUtil.getSocketIP(clientSock);
-                    }
-                    else {
-                    	//Call Heartbeat Method
-                    	System.out.println("Heartbeat Recieved " + Integer.parseInt(scanner.next()));
-                    	numOfPeers = Integer.parseInt(scanner.next());
+                    }else if(input.equalsIgnoreCase("D")) {
+                    	
+                    }else {
+                    	//Heartbeat Recieved
+                    	if (Network.isLeader() == true) {
+	                    	System.out.println("Heartbeat Recieved " + Integer.parseInt(scanner.next()));
+	                    	numOfPeers = Integer.parseInt(scanner.next());
+	                    	leader.Heartbeat(numOfPeers, NetworkUtil.getSocketIP(clientSock));
+                    	}else {
+                    		//Reset timer for leadership
+                    	}
                     }
                 }
 	    	}
 	    	catch(Exception e)
             {
-
+	    		e.printStackTrace();
 	    	}
 	    }
 	}
@@ -94,7 +109,7 @@ public class InitializeNetwork{
     	
 		private ServerThread()
         {
-			
+			//Constructor
 		}
 
 		private void setClientThread(Socket clientSock)
@@ -109,6 +124,7 @@ public class InitializeNetwork{
 				inSocket = new Scanner(new InputStreamReader(tClientSocket.getInputStream()));
 				outSocket = new PrintStream(tClientSocket.getOutputStream());
 				//Kind of janky might need to change to PrintWriter
+				System.out.println("Run message");
 			}catch(IOException e){
 				inpt=inSocket.nextLine();
 				//Might need to change line to just next
