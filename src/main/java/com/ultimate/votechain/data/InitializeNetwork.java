@@ -20,6 +20,8 @@ public class InitializeNetwork{
     Scanner is;
     PrintStream os;
     
+   static int numOfPeers;
+    
     public InitializeNetwork() {
     	Initalize();
     }
@@ -52,6 +54,14 @@ public class InitializeNetwork{
                     {
                         String response = Network.isLeader() ? "Y" : "N";
                         sendMessage(NetworkUtil.getSocketIP(clientSock), 9001, response);
+                        System.out.println("Leader Request Received");
+                    }else if(scanner.next().equalsIgnoreCase("v")) {
+                    	//Call Vote Class
+                    	System.out.println("Vote Query Recieved");
+                    }else {
+                    	//Call Heartbeat Method
+                    	System.out.println("Heartbeat Recieved " + Integer.parseInt(scanner.next()));
+                    	numOfPeers = Integer.parseInt(scanner.next());
                     }
                 }
 	    	}
@@ -61,7 +71,7 @@ public class InitializeNetwork{
 	    	}
 	    }
 	}
-
+    
     public static class ServerThread extends Thread
     {
     	String inpt = null;
@@ -93,7 +103,7 @@ public class InitializeNetwork{
 			}	
 		}
     }
-
+    
     public static void sendMessage(String node, int port, String message)
     {
         Socket socket;
