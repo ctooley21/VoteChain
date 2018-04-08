@@ -28,18 +28,23 @@ public class InitializeNetwork{
     
     private static void Initalize() {
 
-	    try {
+	    try
+        {
 	    	HOSTSOCK = new ServerSocket(9001);
-	    }catch(IOException e) {
+	    }
+	    catch(IOException e)
+        {
 	    	System.out.println("Server Error");
 	    	e.printStackTrace();
 	    }
-	    System.out.println("Server Listening on " + HOSTSOCK +"....");
+	    System.out.println("Server Listening on " + HOSTSOCK + "....");
 	    
 	    while(true)
         {
+            System.out.println("test1");
 	    	try
             {
+                System.out.println("test2");
 	    		clientSock = HOSTSOCK.accept();
 	    		System.out.println("Connection Established with " + clientSock + "!");
 	    		threadInstance = new ServerThread();
@@ -50,8 +55,10 @@ public class InitializeNetwork{
 
 	    		while(scanner.hasNext())
                 {
-                    if(scanner.next().equalsIgnoreCase("?"))
+                    String input = scanner.next();
+                    if(input.equalsIgnoreCase("?"))
                     {
+                        System.out.println("test");
                         String response = Network.isLeader() ? "Y" : "N";
                         sendMessage(NetworkUtil.getSocketIP(clientSock), 9001, response);
                         System.out.println("Leader Request Received");
@@ -63,11 +70,16 @@ public class InitializeNetwork{
                     	System.out.println("Heartbeat Recieved " + Integer.parseInt(scanner.next()));
                     	numOfPeers = Integer.parseInt(scanner.next());
                     }
+                    else if(input.equalsIgnoreCase("Y"))
+                    {
+                        System.out.println("test34");
+                        Network.leader = NetworkUtil.getSocketIP(clientSock);
+                    }
                 }
 	    	}
 	    	catch(Exception e)
             {
-	    		
+
 	    	}
 	    }
 	}
@@ -112,20 +124,24 @@ public class InitializeNetwork{
         try
         {
             socket = new Socket(node, port);
-            os = new DataOutputStream(socket.getOutputStream());
         }
         catch (Exception e)
         {
+            System.out.println("Error connecting to: " + node + " - " + message);
             return;
         }
 
-        try {
+        try
+        {
+            os = new DataOutputStream(socket.getOutputStream());
             os.writeBytes(message);
         }
         catch (Exception e)
         {
-            return;
+            System.out.println("Error sending message: " + message);
         }
+
+        System.out.println("Successfully sent \"" + message + "\" to " + node);
     }
 }
 

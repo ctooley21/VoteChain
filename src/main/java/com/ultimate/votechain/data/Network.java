@@ -17,7 +17,7 @@ public class Network
     private static boolean isLeader;
 
     private static List<String> nodes;
-    private static String leader;
+    public static String leader;
 
     public Network()
     {
@@ -45,7 +45,7 @@ public class Network
             */
             try
             {
-                new Socket().connect(new InetSocketAddress(node, 9001), 500);
+                new Socket().connect(new InetSocketAddress(node, 9001), 250);
                 System.out.println(node + " is on the network.");
                 aliveNodes.add(node);
             }
@@ -55,13 +55,15 @@ public class Network
             }
         }
 
+        findLeader(aliveNodes);
         return aliveNodes.isEmpty();
     }
 
-    public static void findLeader(List<String> nodes)
+    private static void findLeader(List<String> nodes)
     {
         for(String node : nodes)
         {
+            System.out.println("testing!");
             InitializeNetwork.sendMessage(node, 9001, "?");
         }
     }
