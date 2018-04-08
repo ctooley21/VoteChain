@@ -1,5 +1,6 @@
 package com.ultimate.votechain.data;
 
+import com.ultimate.votechain.VoteChain;
 import com.ultimate.votechain.util.StringUtil;
 
 import java.security.PrivateKey;
@@ -9,7 +10,9 @@ import java.util.List;
 
 public class Transaction
 {
-    public String transactionId;
+    public String transactionID;
+    public String hash;
+    public String previousHash;
     private PublicKey sender;
     private byte[] signature;
     private List<Vote> votes;
@@ -18,15 +21,39 @@ public class Transaction
 
     public Transaction(PublicKey from, List<Vote> votes)
     {
+        if(VoteChain.getChain().isEmpty())
+        {
+            setPreviousHash("0");
+        }
+        else
+        {
+            setPreviousHash(VoteChain.getChain().get(VoteChain.getChain().size() - 1).getHash());
+        }
         this.sender = from;
         this.votes = votes;
         this.timestamp = new Date().getTime();
+        this.hash = calculateHash();
     }
 
-    private String calculateHash()
+    public void setPreviousHash(String previousHash)
+    {
+        this.previousHash = previousHash;
+    }
+
+    public String getPreviousHash()
+    {
+        return previousHash;
+    }
+
+    public String getHash()
+    {
+        return hash;
+    }
+
+    public String calculateHash()
     {
         sequence++;
-        return StringUtil.applySha256(StringUtil.getStringFromKey(sender) + sequence);
+        return StringUtil.applySha256(previousHash + Long.toString(timestamp));
     }
 
     public void generateSignature(PrivateKey privateKey)
@@ -48,7 +75,7 @@ public class Transaction
             return false;
         }
 
-        transactionId = calculateHash();
+        transactionID = calculateHash();
         return true;
     }
 

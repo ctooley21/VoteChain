@@ -80,7 +80,7 @@ public class StringUtil
         ArrayList<String> previousTreeLayer = new ArrayList<>();
         for(Transaction transaction : transactions)
         {
-            previousTreeLayer.add(transaction.transactionId);
+            previousTreeLayer.add(transaction.getHash());
         }
         ArrayList<String> treeLayer = previousTreeLayer;
         while(count > 1)
