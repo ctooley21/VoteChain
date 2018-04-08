@@ -6,13 +6,16 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import java.security.Security;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class VoteChain
 {
 
-    public static List<Block> chain = new ArrayList<>();
+    private static List<Block> chain = new ArrayList<>();
     private static int difficulty = 5;
+
+    private static HashMap<String, List<String>> electionData = new HashMap<>();
 
     public static void main(String[] args)
     {
