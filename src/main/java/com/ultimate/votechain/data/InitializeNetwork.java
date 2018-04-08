@@ -65,15 +65,16 @@ public class InitializeNetwork{
                     }else if(scanner.next().equalsIgnoreCase("v")) {
                     	//Call Vote Class
                     	System.out.println("Vote Query Recieved");
-                    }else {
-                    	//Call Heartbeat Method
-                    	System.out.println("Heartbeat Recieved " + Integer.parseInt(scanner.next()));
-                    	numOfPeers = Integer.parseInt(scanner.next());
                     }
                     else if(input.equalsIgnoreCase("Y"))
                     {
                         System.out.println("test34");
                         Network.leader = NetworkUtil.getSocketIP(clientSock);
+                    }
+                    else {
+                    	//Call Heartbeat Method
+                    	System.out.println("Heartbeat Recieved " + Integer.parseInt(scanner.next()));
+                    	numOfPeers = Integer.parseInt(scanner.next());
                     }
                 }
 	    	}
