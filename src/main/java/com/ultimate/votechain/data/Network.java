@@ -14,9 +14,10 @@ public class Network
 {
 
     private boolean isCandidate;
-    private boolean isLeader;
+    private static boolean isLeader;
 
     private static List<String> nodes;
+    private static String leader;
 
     public Network()
     {
@@ -34,6 +35,7 @@ public class Network
 
     private static boolean networkHasLeader()
     {
+        List<String> aliveNodes = new ArrayList<>();
         for(String node : nodes)
         {
             if(node.equalsIgnoreCase(NetworkUtil.getLocalIP()))
@@ -42,16 +44,25 @@ public class Network
             }
             try
             {
-                new Socket().connect(new InetSocketAddress(node, 9001), 1000);
+                new Socket().connect(new InetSocketAddress(node, 9001), 250);
                 System.out.println(node + " is on the network.");
-                return false;
+                aliveNodes.add(node);
             }
             catch (Exception e)
             {
                 System.out.println(node + " is not on the network.");
             }
         }
-        return true;
+
+        return aliveNodes.isEmpty();
+    }
+
+    public static void findLeader(List<String> nodes)
+    {
+        for(String node : nodes)
+        {
+            InitializeNetwork.sendMessage(node, 9001, "?");
+        }
     }
 
     public static void startElection()
@@ -69,5 +80,24 @@ public class Network
         });
         timer.setRepeats(false);
         timer.start();
+    }
+
+    public static void startHeartBeat()
+    {
+        Timer timer = new Timer(333, new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent arg)
+            {
+
+            }
+        });
+        timer.setRepeats(false);
+        timer.start();
+    }
+
+    public static boolean isLeader()
+    {
+        return isLeader;
     }
 }

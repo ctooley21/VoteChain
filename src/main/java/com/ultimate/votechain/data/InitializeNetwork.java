@@ -1,5 +1,8 @@
 package com.ultimate.votechain.data;
 
+import com.ultimate.votechain.util.NetworkUtil;
+import sun.nio.ch.Net;
+
 import java.io.*;
 import java.net.*;
 import java.util.Scanner;
@@ -31,19 +34,36 @@ public class InitializeNetwork{
 	    }
 	    System.out.println("Server Listening on " + HOSTSOCK +"....");
 	    
-	    while(true) {
-	    	try {
+	    while(true)
+        {
+	    	try
+            {
 	    		clientSock = HOSTSOCK.accept();
-	    		System.out.println("Connection Established with "+clientSock+"!");
+	    		System.out.println("Connection Established with " + clientSock + "!");
 	    		threadInstance = new ServerThread();
 	    		threadInstance.start();
 	    		threadInstance.setClientThread(clientSock);
-	    	}catch(Exception e) {
+
+	    		Scanner scanner = new Scanner(clientSock.getInputStream());
+
+	    		while(scanner.hasNext())
+                {
+                    if(scanner.next().equalsIgnoreCase("?"))
+                    {
+                        String response = Network.isLeader() ? "Y" : "N";
+                        sendMessage(NetworkUtil.getSocketIP(clientSock), 9001, response);
+                    }
+                }
+	    	}
+	    	catch(Exception e)
+            {
 	    		
 	    	}
 	    }
 	}
-    public static class ServerThread extends Thread{
+
+    public static class ServerThread extends Thread
+    {
     	String inpt = null;
     	Scanner inSocket = null;
     	Scanner outSocket = null;
@@ -57,17 +77,41 @@ public class InitializeNetwork{
 		}
 		public void run() {
 			//Must be public as is apart of thread
-			
+
 			try {
 				inSocket = new Scanner(new InputStreamReader(tClientSocket.getInputStream()));
 				outSocket = new Scanner((Readable) tClientSocket.getOutputStream());
-					//Kind of janky might need to change to PrintWriter
+				//Kind of janky might need to change to PrintWriter
 			}catch(IOException e){
 				inpt=inSocket.nextLine();
-					//Might need to change line to just next
+				//Might need to change line to just next
 				System.out.println("Error on client port");
 			}	
 		}
+    }
+
+    public static void sendMessage(String node, int port, String message)
+    {
+        Socket socket;
+        DataOutputStream os;
+
+        try
+        {
+            socket = new Socket(node, port);
+            os = new DataOutputStream(socket.getOutputStream());
+        }
+        catch (Exception e)
+        {
+            return;
+        }
+
+        try {
+            os.writeBytes(message);
+        }
+        catch (Exception e)
+        {
+            return;
+        }
     }
 }
 
