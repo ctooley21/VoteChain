@@ -19,7 +19,7 @@ public class VoteChain
 {
 
     private static List<Block> chain = new ArrayList<>();
-    private static int difficulty = 5;
+    private static int difficulty = 1;
 
     private static HashMap<String, List<String>> electionData = new HashMap<>();
 

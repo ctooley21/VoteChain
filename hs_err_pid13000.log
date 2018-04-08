@@ -1,0 +1,152 @@
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (malloc) failed to allocate 1048576 bytes for AllocateHeap
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   In 32 bit mode, the process size limit was hit
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Use 64 bit Java on a 64 bit OS
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (memory/allocation.inline.hpp:61), pid=13000, tid=0x00000000000032e8
+#
+# JRE version:  (8.0_144-b01) (build )
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (25.144-b01 mixed mode windows-amd64 compressed oops)
+# Failed to write core dump. Minidumps are not enabled by default on client versions of Windows
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x0000000002e8d800):  JavaThread "Unknown thread" [_thread_in_vm, id=13032, stack(0x0000000002bc0000,0x0000000002cc0000)]
+
+Stack: [0x0000000002bc0000,0x0000000002cc0000]
+[error occurred during error reporting (printing stack bounds), id 0xc0000005]
+
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+
+Other Threads:
+
+=>0x0000000002e8d800 (exited) JavaThread "Unknown thread" [_thread_in_vm, id=13032, stack(0x0000000002bc0000,0x0000000002cc0000)]
+
+VM state:not at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Heap:
+ PSYoungGen      total 38400K, used 665K [0x00000000d5e00000, 0x00000000d8880000, 0x0000000100000000)
+  eden space 33280K, 2% used [0x00000000d5e00000,0x00000000d5ea6670,0x00000000d7e80000)
+  from space 5120K, 0% used [0x00000000d8380000,0x00000000d8380000,0x00000000d8880000)
+  to   space 5120K, 0% used [0x00000000d7e80000,0x00000000d7e80000,0x00000000d8380000)
+ ParOldGen       total 87552K, used 0K [0x0000000081a00000, 0x0000000086f80000, 0x00000000d5e00000)
+  object space 87552K, 0% used [0x0000000081a00000,0x0000000081a00000,0x0000000086f80000)
+ Metaspace       used 752K, capacity 1092K, committed 1152K, reserved 1060864K
+  class space    used 75K, capacity 384K, committed 384K, reserved 1048576K
+
+Card table byte_map: [0x0000000012250000,0x0000000012650000] byte_map_base: 0x0000000011e43000
+
+Marking Bits: (ParMarkBitMap*) 0x0000000075cad850
+ Begin Bits: [0x0000000012d00000, 0x0000000014c98000)
+ End Bits:   [0x0000000014c98000, 0x0000000016c30000)
+
+Polling page: 0x0000000001150000
+
+CodeCache: size=245760Kb used=328Kb max_used=328Kb free=245431Kb
+ bounds [0x0000000002e90000, 0x0000000003100000, 0x0000000011e90000]
+ total_blobs=58 nmethods=0 adapters=38
+ compilation: enabled
+
+Compilation events (0 events):
+No events
+
+GC Heap History (0 events):
+No events
+
+Deoptimization events (0 events):
+No events
+
+Internal exceptions (0 events):
+No events
+
+Events (10 events):
+Event: 0.035 loading class java/lang/Short
+Event: 0.035 loading class java/lang/Short done
+Event: 0.035 loading class java/lang/Integer
+Event: 0.035 loading class java/lang/Integer done
+Event: 0.035 loading class java/lang/Long
+Event: 0.035 loading class java/lang/Long done
+Event: 0.036 loading class java/lang/NullPointerException
+Event: 0.036 loading class java/lang/NullPointerException done
+Event: 0.036 loading class java/lang/ArithmeticException
+Event: 0.037 loading class java/lang/ArithmeticException done
+
+
+Dynamic libraries:
+0x00007ff730d90000 - 0x00007ff730dc7000 	D:\Programs\Eclipse\eclipse-java-oxygen-R-win32-x86_64\eclipse\jre\bin\javaw.exe
+0x00007ffe85d90000 - 0x00007ffe85f62000 	C:\Windows\SYSTEM32\ntdll.dll
+0x00007ffe85090000 - 0x00007ffe8513c000 	C:\Windows\System32\KERNEL32.DLL
+0x00007ffe82650000 - 0x00007ffe8286d000 	C:\Windows\System32\KERNELBASE.dll
+0x00007ffe83380000 - 0x00007ffe83422000 	C:\Windows\System32\ADVAPI32.dll
+0x00007ffe85cf0000 - 0x00007ffe85d8e000 	C:\Windows\System32\msvcrt.dll
+0x00007ffe852a0000 - 0x00007ffe852f9000 	C:\Windows\System32\sechost.dll
+0x00007ffe85a70000 - 0x00007ffe85b91000 	C:\Windows\System32\RPCRT4.dll
+0x00007ffe84ae0000 - 0x00007ffe84c45000 	C:\Windows\System32\USER32.dll
+0x00007ffe82350000 - 0x00007ffe8236e000 	C:\Windows\System32\win32u.dll
+0x00007ffe84940000 - 0x00007ffe84974000 	C:\Windows\System32\GDI32.dll
+0x00007ffe83000000 - 0x00007ffe83180000 	C:\Windows\System32\gdi32full.dll
+0x00007ffe76370000 - 0x00007ffe765ea000 	C:\Windows\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.14393.953_none_42151e83c686086b\COMCTL32.dll
+0x00007ffe854d0000 - 0x00007ffe85798000 	C:\Windows\System32\combase.dll
+0x00007ffe83180000 - 0x00007ffe83275000 	C:\Windows\System32\ucrtbase.dll
+0x00007ffe82290000 - 0x00007ffe822fa000 	C:\Windows\System32\bcryptPrimitives.dll
+0x00007ffe854a0000 - 0x00007ffe854ce000 	C:\Windows\System32\IMM32.DLL
+0x00000000751f0000 - 0x00000000752c2000 	D:\Programs\Eclipse\eclipse-java-oxygen-R-win32-x86_64\eclipse\jre\bin\msvcr100.dll
+0x0000000075490000 - 0x0000000075d2d000 	D:\Programs\Eclipse\eclipse-java-oxygen-R-win32-x86_64\eclipse\jre\bin\server\jvm.dll
+0x00007ffe85ba0000 - 0x00007ffe85ba8000 	C:\Windows\System32\PSAPI.DLL
+0x00007ffe7d8f0000 - 0x00007ffe7d8f9000 	C:\Windows\SYSTEM32\WSOCK32.dll
+0x00007ffe85860000 - 0x00007ffe858ca000 	C:\Windows\System32\WS2_32.dll
+0x00007ffe801f0000 - 0x00007ffe80213000 	C:\Windows\SYSTEM32\WINMM.dll
+0x00007ffe77450000 - 0x00007ffe7745a000 	C:\Windows\SYSTEM32\VERSION.dll
+0x00007ffe801c0000 - 0x00007ffe801eb000 	C:\Windows\SYSTEM32\WINMMBASE.dll
+0x00007ffe82300000 - 0x00007ffe82342000 	C:\Windows\System32\cfgmgr32.dll
+0x0000000075480000 - 0x000000007548f000 	D:\Programs\Eclipse\eclipse-java-oxygen-R-win32-x86_64\eclipse\jre\bin\verify.dll
+0x0000000075450000 - 0x0000000075479000 	D:\Programs\Eclipse\eclipse-java-oxygen-R-win32-x86_64\eclipse\jre\bin\java.dll
+0x0000000075430000 - 0x0000000075446000 	D:\Programs\Eclipse\eclipse-java-oxygen-R-win32-x86_64\eclipse\jre\bin\zip.dll
+
+VM Arguments:
+jvm_args: -Dfile.encoding=Cp1252 
+java_command: com.ultimate.votechain.VoteChain
+java_class_path (initial): D:\Development\Projects\VoteChain\target\classes;C:\Users\bryan\.m2\repository\com\google\code\gson\gson\2.3\gson-2.3.jar;C:\Users\bryan\.m2\repository\org\bouncycastle\bcprov-jdk16\1.45\bcprov-jdk16-1.45.jar
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+PATH=D:/Programs/Eclipse/eclipse-java-oxygen-R-win32-x86_64/eclipse/jre/bin/server;D:/Programs/Eclipse/eclipse-java-oxygen-R-win32-x86_64/eclipse/jre/bin;D:/Programs/Eclipse/eclipse-java-oxygen-R-win32-x86_64/eclipse/jre/lib/amd64;C:\Windows;C:\Windows;C:\Windows;C:\Windows;C:\Windows;C:\Windows;C:\Windows;C:\Windows;C:\Windows;C:\Windows;C:\Windows;C:\Windows;C:\Windows;C:\Windows;C:\Windows;C:\Windows;C:\Windows;C:\Windows;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\Razer Chroma SDK\bin;C:\Program Files\Razer Chroma SDK\bin;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Users\Administrator\AppData\Local\Microsoft\WindowsApps;D:\Programs\MatLab\bin;C:\Program Files\LLVM\bin;C:\Program Files\MATLAB\R2017b\bin;C:\Program Files\PuTTY\;C:\MinGW\bin;C:\Python27;D:\Development\Projects\avr-toolchain-windows-master\bin;C:\Users\bryan\AppData\Local\Microsoft\WindowsApps;C:\Users\bryan\AppData\Local\atom\bin;C:\Users\bryan\AppData\Local\GitHubDesktop\bin;D:\Programs\Eclipse\eclipse-java-oxygen-R-win32-x86_64\eclipse;
+USERNAME=bryan
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 142 Stepping 9, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows 10.0 , 64 bit Build 14393 (10.0.14393.1198)
+
+CPU:total 4 (initial active 4) (2 cores per cpu, 2 threads per core) family 6 model 142 stepping 9, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, 3dnowpref, lzcnt, ht, tsc, tscinvbit, bmi1, bmi2, adx
+
+Memory: 4k page, physical 8277956k(1766800k free), swap 23216308k(5548k free)
+
+vm_info: Java HotSpot(TM) 64-Bit Server VM (25.144-b01) for windows-amd64 JRE (1.8.0_144-b01), built on Jul 21 2017 21:57:33 by "java_re" with MS VC++ 10.0 (VS2010)
+
+time: Sat Apr 07 21:05:12 2018
+elapsed time: 0 seconds (0d 0h 0m 0s)
+
