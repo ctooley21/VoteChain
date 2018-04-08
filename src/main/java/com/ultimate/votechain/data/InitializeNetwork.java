@@ -68,6 +68,7 @@ public class InitializeNetwork
         {
 			tClientSocket = clientSock;
 		}
+		
 		public void run()
         {
 			//Must be public as is apart of thread
