@@ -1,12 +1,18 @@
 package com.ultimate.votechain;
 
 import com.ultimate.votechain.data.Block;
+import com.ultimate.votechain.data.GUI_Login;
 import com.ultimate.votechain.data.Transaction;
 import com.ultimate.votechain.data.Wallet;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
+
 import java.security.Security;
 import java.util.ArrayList;
+
+import javax.swing.*;
+import java.awt.*;
+//GUI import
 
 public class VoteChain
 {
@@ -20,6 +26,8 @@ public class VoteChain
 
     public static void main(String[] args)
     {
+    	guiStart();
+    	
         Security.addProvider(new BouncyCastleProvider());
 
         walletA = new Wallet();
@@ -45,6 +53,10 @@ public class VoteChain
         addBlock(block3);
 
         isChainValid();
+    }
+    
+    private static void guiStart() {
+    	GUI_Login login = new GUI_Login();       
     }
 
     private static Boolean isChainValid()
