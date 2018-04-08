@@ -9,16 +9,23 @@ import java.util.List;
 
 public class Block {
 
-    public String hash;
-    public String previousHash;
+    private String hash;
+    private String previousHash;
     private String merkleRoot;
     private List<Transaction> transactions = new ArrayList<>();
     private long timeStamp;
     private int nonce;
 
-    public Block(String previousHash )
+    public Block()
     {
-        this.previousHash = previousHash;
+        if(VoteChain.getChain().isEmpty())
+        {
+            setPreviousHash("0");
+        }
+        else
+        {
+            setPreviousHash(VoteChain.getChain().get(VoteChain.getChain().size() - 1).getHash());
+        }
         this.timeStamp = new Date().getTime();
         this.hash = calculateHash();
     }
@@ -31,6 +38,11 @@ public class Block {
     public String getPreviousHash()
     {
         return previousHash;
+    }
+
+    public void setPreviousHash(String previousHash)
+    {
+        this.previousHash = previousHash;
     }
 
     public String getMerkleRoot()
@@ -53,7 +65,9 @@ public class Block {
         return StringUtil.applySha256(previousHash + Long.toString(timeStamp) + Integer.toString(nonce) + merkleRoot);
     }
 
-    public void mineBlock() {
+    public void mineBlock()
+    {
+        System.out.println("Attempting to mine block: " + getHash());
         merkleRoot = StringUtil.getMerkleRoot(transactions);
         String target = StringUtil.getDificultyString(VoteChain.getDifficulty());
 
@@ -62,6 +76,8 @@ public class Block {
             nonce ++;
             hash = calculateHash();
         }
+
+        System.out.println("Mined block!");
     }
 
     public void addTransaction(Transaction transaction)

@@ -3,6 +3,7 @@ package com.ultimate.votechain;
 import com.ultimate.votechain.data.Block;
 import com.ultimate.votechain.data.GUI_Login;
 import com.ultimate.votechain.data.Transaction;
+import com.ultimate.votechain.util.CSVUtil;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 
@@ -10,10 +11,6 @@ import java.security.Security;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import javax.swing.*;
-import java.awt.*;
-//GUI import
 
 public class VoteChain
 {
@@ -26,10 +23,16 @@ public class VoteChain
     public static void main(String[] args)
     {
     	guiStart();
-    	
+        electionData = CSVUtil.readElectionData("C:\\Users\\drkpr\\Dropbox\\Projects\\VoteChain\\src\\main\\resources\\election_data.csv");
+
         Security.addProvider(new BouncyCastleProvider());
-        Block genesis = new Block("0");
+        Block genesis = new Block();
         addBlock(genesis);
+
+        for(int i = 0; i < 10; i++)
+        {
+            addBlock(new Block());
+        }
 
         isChainValid();
     }
@@ -49,17 +52,17 @@ public class VoteChain
             currentBlock = chain.get(i);
             previousBlock = chain.get(i - 1);
 
-            if(!currentBlock.hash.equals(currentBlock.calculateHash()))
+            if(!currentBlock.getHash().equals(currentBlock.calculateHash()))
             {
                 return false;
             }
 
-            if(!previousBlock.hash.equals(currentBlock.previousHash))
+            if(!previousBlock.getHash().equals(currentBlock.getPreviousHash()))
             {
                 return false;
             }
 
-            if(!currentBlock.hash.substring(0, difficulty).equals(hashTarget))
+            if(!currentBlock.getHash().substring(0, difficulty).equals(hashTarget))
             {
                 return false;
             }

@@ -8,18 +8,10 @@ public class Wallet
 {
     private PrivateKey privateKey;
     private PublicKey publicKey;
-    private String district;
-
-    public Wallet(String district)
-    {
-        generateKeyPair();
-        this.district = district;
-    }
 
     public Wallet()
     {
         generateKeyPair();
-        district = "CA-01";
     }
 
     public PrivateKey getPrivateKey()
@@ -30,11 +22,6 @@ public class Wallet
     public PublicKey getPublicKey()
     {
         return publicKey;
-    }
-
-    public String getDistrict()
-    {
-        return district;
     }
 
     private void generateKeyPair()
