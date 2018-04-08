@@ -20,7 +20,7 @@ public class InitializeNetwork{
     Scanner is;
     PrintStream os;
     
-    private InitializeNetwork() {
+    public InitializeNetwork() {
     	Initalize();
     }
     
@@ -66,21 +66,25 @@ public class InitializeNetwork{
     {
     	String inpt = null;
     	Scanner inSocket = null;
-    	Scanner outSocket = null;
+    	PrintStream outSocket = null;
     	Socket tClientSocket = null;
     	
-		private ServerThread() {
+		private ServerThread()
+        {
 			
 		}
-		private void setClientThread(Socket clientSock) {
+
+		private void setClientThread(Socket clientSock)
+        {
 			tClientSocket = clientSock;
 		}
-		public void run() {
+		public void run()
+        {
 			//Must be public as is apart of thread
 
 			try {
 				inSocket = new Scanner(new InputStreamReader(tClientSocket.getInputStream()));
-				outSocket = new Scanner((Readable) tClientSocket.getOutputStream());
+				outSocket = new PrintStream(tClientSocket.getOutputStream());
 				//Kind of janky might need to change to PrintWriter
 			}catch(IOException e){
 				inpt=inSocket.nextLine();

@@ -1,9 +1,6 @@
 package com.ultimate.votechain;
 
-import com.ultimate.votechain.data.GUI_Login;
-import com.ultimate.votechain.data.Network;
-import com.ultimate.votechain.data.Transaction;
-import com.ultimate.votechain.data.Wallet;
+import com.ultimate.votechain.data.*;
 import com.ultimate.votechain.util.CSVUtil;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
@@ -20,7 +17,7 @@ public class VoteChain
 
     public static void main(String[] args)
     {
-    	guiStart();
+    	//guiStart();
         electionData = CSVUtil.readElectionData("C:\\Users\\drkpr\\Dropbox\\Projects\\VoteChain\\src\\main\\resources\\election_data.csv");
 
         Security.addProvider(new BouncyCastleProvider());
@@ -40,6 +37,7 @@ public class VoteChain
         System.out.println(isChainValid());
 
         new Network();
+        new InitializeNetwork();
     }
     
     private static void guiStart() {

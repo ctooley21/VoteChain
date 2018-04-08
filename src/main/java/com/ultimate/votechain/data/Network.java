@@ -38,13 +38,14 @@ public class Network
         List<String> aliveNodes = new ArrayList<>();
         for(String node : nodes)
         {
-            if(node.equalsIgnoreCase(NetworkUtil.getLocalIP()))
+            /*if(node.equalsIgnoreCase(NetworkUtil.getLocalIP()))
             {
                 continue;
             }
+            */
             try
             {
-                new Socket().connect(new InetSocketAddress(node, 9001), 250);
+                new Socket().connect(new InetSocketAddress(node, 9001), 500);
                 System.out.println(node + " is on the network.");
                 aliveNodes.add(node);
             }
