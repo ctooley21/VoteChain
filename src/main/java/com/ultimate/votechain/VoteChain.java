@@ -3,12 +3,13 @@ package com.ultimate.votechain;
 import com.ultimate.votechain.data.Block;
 import com.ultimate.votechain.data.GUI_Login;
 import com.ultimate.votechain.data.Transaction;
-import com.ultimate.votechain.data.Wallet;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 
 import java.security.Security;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,40 +18,18 @@ import java.awt.*;
 public class VoteChain
 {
 
-    public static ArrayList<Block> chain = new ArrayList<>();
+    private static List<Block> chain = new ArrayList<>();
+    private static int difficulty = 5;
 
-    public static int difficulty = 3;
-    public static Wallet walletA;
-    public static Wallet walletB;
-    public static Transaction genesisTransaction;
+    private static HashMap<String, List<String>> electionData = new HashMap<>();
 
     public static void main(String[] args)
     {
     	guiStart();
     	
         Security.addProvider(new BouncyCastleProvider());
-
-        walletA = new Wallet();
-        walletB = new Wallet();
-        Wallet coinbase = new Wallet();
-
-        genesisTransaction = new Transaction(coinbase.publicKey, null);
-        genesisTransaction.generateSignature(coinbase.privateKey);
-        genesisTransaction.transactionId = "0";
-
-        System.out.println("Creating and Mining Genesis block... ");
         Block genesis = new Block("0");
-        genesis.addTransaction(genesisTransaction);
         addBlock(genesis);
-
-        Block block1 = new Block(genesis.hash);
-        addBlock(block1);
-
-        Block block2 = new Block(block1.hash);
-        addBlock(block2);
-
-        Block block3 = new Block(block2.hash);
-        addBlock(block3);
 
         isChainValid();
     }
@@ -65,54 +44,54 @@ public class VoteChain
         Block previousBlock;
         String hashTarget = new String(new char[difficulty]).replace('\0', '0');
 
-        for(int i=1; i < chain.size(); i++)
+        for(int i = 1; i < chain.size(); i++)
         {
             currentBlock = chain.get(i);
-            previousBlock = chain.get(i-1);
+            previousBlock = chain.get(i - 1);
 
             if(!currentBlock.hash.equals(currentBlock.calculateHash()))
             {
-                System.out.println("#Current Hashes not equal");
                 return false;
             }
 
             if(!previousBlock.hash.equals(currentBlock.previousHash))
             {
-                System.out.println("#Previous Hashes not equal");
                 return false;
             }
 
             if(!currentBlock.hash.substring(0, difficulty).equals(hashTarget))
             {
-                System.out.println("#This block hasn't been mined");
                 return false;
             }
 
 
-            for(int j = 0; j <currentBlock.transactions.size(); j++)
+            for(int j = 0; j <currentBlock.getTransactions().size(); j++)
             {
-                Transaction currentTransaction = currentBlock.transactions.get(j);
-
+                Transaction currentTransaction = currentBlock.getTransactions().get(j);
                 if(!currentTransaction.verifySignature())
                 {
-                    System.out.println("#Signature on Transaction(" + j + ") is Invalid");
                     return false;
                 }
             }
-
         }
+
         System.out.println("Blockchain is valid");
         return true;
     }
 
     private static void addBlock(Block newBlock)
     {
-        newBlock.mineBlock(difficulty);
+        newBlock.mineBlock();
         chain.add(newBlock);
     }
 
-    public static ArrayList<Block> getChain()
+    public static List<Block> getChain()
     {
         return chain;
+    }
+
+    public static int getDifficulty()
+    {
+        return difficulty;
     }
 }
